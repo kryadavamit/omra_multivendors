@@ -12,11 +12,13 @@ passport.use(
     new localStrategy(
       {
         usernameField: 'email',
-        passwordField: 'password'
+        passwordField: 'password',
+        roleField:'role'
+        
       },
-      async (email, password, done) => {
+      async (email, password,role, done) => {
         try {
-          const user = await UserModel.create({ email, password });
+          const user = await UserModel.create({ email, password,role});
   
           return done(null, user);
         } catch (error) {

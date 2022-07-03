@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const bcrypt= require("bcrypt")
 
+
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -17,7 +18,7 @@ const UserSchema = new Schema({
   },
   role: {
     type:String,
-    enum:["SuperAdmin","Admin"],
+    enum:["SuperAdmin","Admin","User"],
     required:false
   },
 
@@ -37,6 +38,10 @@ const UserSchema = new Schema({
     type:String,
     required:false
   },
+  Merchant_Designation:{
+    type:String,
+    required:false
+  },
 
   Year_of_establishment: { 
 
@@ -51,10 +56,41 @@ const UserSchema = new Schema({
   PAN_No: {
     type:String,
     required:false
-  }
+  },
+
+  company_Name: {
+    type:String,
+    required:false,
+    // unique:false
+  },
+  description: {
+    type:String,
+    required:false,
+    // unique:true
+  },
+  
+
+  Category1: {
+    type:String,
+    required:false,
+    // unique:true
+  },
+  Category2: {
+    type:String,
+    required:false,
+    // unique:true
+  },
+  Category3: {
+    type:String,
+    required:false,
+    // unique:true
+  },
+ 
+ 
 
 
-}
+},
+{timestamps:true}
 
 
  
@@ -84,7 +120,7 @@ UserSchema.pre(
     return compare;
   }
 
-  const UserModel = mongoose.model('seller', UserSchema);
+  const UserModel = mongoose.model('test', UserSchema);
   
 
 module.exports = UserModel;
