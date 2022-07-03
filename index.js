@@ -6,9 +6,11 @@ const cors  = require("cors")
 const multer = require("multer");
 
 
+
 const UserModel = require('./model/model');
 const database=require("./config/database")
 require("dotenv").config()
+const PORT = process.env.PORT || 5000;
 
 
 database()
@@ -77,6 +79,6 @@ app.use(function(err, req, res, next) {
   res.json({ error: err });
 });
 
-app.listen(5000, () => {
+app.listen(PORT, () => {
   console.log('Server started.')
 });
