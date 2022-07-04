@@ -35,5 +35,22 @@ router.get('/get_products', async (req,res) =>{
     }
   
   })
+
+  router.get('/get_products_count', async (req,res) =>{
+    // const { user } = req.user;
+    // const userData = await UserModel.findOne(
+    //   { _id: user._id },
+    //   { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
+    // );
+    try {
+        const product= await Product.find({isApproved:false}).sort([['createdAt', -1]])
+        
+        
+        res.status(200).json(product);
+    } catch(error) {
+        res.status(404).json({message: error.message});
+    }
+  
+  })
   
   module.exports = router
