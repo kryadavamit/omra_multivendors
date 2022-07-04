@@ -54,12 +54,18 @@ router.post(
         password:password,
         role:role
       }
+
      try{
+      const verify= UserModel.findOne(email)
+      // if(verify){
+      //   return res.status(409).json({success:false,message:"account already created"})
+      // }
        const user =await UserModel.create(data)
        const payload={
         email:user.email,
         _id:user._id,
         role:user.role
+        
        }
        const token=jwt.sign(payload, 'TOP_SECRET')
        
@@ -152,7 +158,7 @@ router.post(
             async (error) => {
               if (error) return next(error);
 
-              const body = { _id: user._id, email: user.email,role:user.role };
+              const body = { _id: user._id, email: user.email,role:user.role,isRegistered : user?.company_Name?true:false };
               const token = jwt.sign({ user: body }, 'TOP_SECRET');
 
               return res.json({success:true, token });
@@ -166,6 +172,38 @@ router.post(
   }
 );
 
+
+
+
+router.get(
+  '/logout',
+  // passport.authenticate('signup', { session: false }),
+  async (req, res) => {
+   
+
+   try{
+    res.clearCookie('jwt')
+     const user = await req.user.save()
+     
+     
+     
+     
+     res.status(201).json({ success: true, data: "logout successfully",user:user,token:user})
+     
+
+
+   }
+   catch(err){
+    console.log({"error":err.message})
+
+   }
+    // res.json({
+    //   message: 'Signup successful',
+    //   user: req.user
+    // });
+    
+  }
+);
 module.exports = router;
 
 

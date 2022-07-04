@@ -74,7 +74,7 @@ router.patch("/details", async (req, res) => {
 
   try {
     const user = await UserModel.findOneAndUpdate(
-      { _id },
+      { _id:_id },
       {
         Merchant_Name: req.body.Merchant_Name,
         Merchant_Address: req.body.Merchant_Address,
@@ -94,6 +94,29 @@ router.patch("/details", async (req, res) => {
 
     res.json({
       message: "User Updated Sucessfully",
+      user,
+    });
+  } catch (err) {
+    res.json({
+      message: err?.message,
+    });
+  }
+});
+
+router.get("/details", async (req, res) => {
+  const { _id } = req.user;
+  console.log(_id);
+
+  try {
+    const user = await UserModel.findOne(
+      { _id:_id }
+      
+      
+    );
+    //Fields
+
+    res.json({
+      success: "Sucessfully",
       user,
     });
   } catch (err) {
@@ -127,6 +150,30 @@ router.patch("/companyprofile", async (req, res) => {
 
     res.json({
       message: "User Updated Sucessfully",
+      user,
+    });
+  } catch (err) {
+    res.json({
+      message: err?.message,
+    });
+  }
+});
+
+
+router.get("/companyprofile", async (req, res) => {
+  const { _id } = req.user;
+  console.log({ "amit badman": req.user });
+
+  try {
+    const user = await UserModel.findOne(
+      { _id },
+      
+      
+    );
+    //Fields
+
+    res.json({
+    success:true,
       user,
     });
   } catch (err) {
