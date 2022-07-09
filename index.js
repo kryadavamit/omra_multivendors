@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -8,7 +10,7 @@ const multer = require("multer");
 
 
 const UserModel = require('./model/model');
-const database=require("./config/database")
+const database =require("./config/database")
 require("dotenv").config()
 const PORT = process.env.PORT || 5000;
 
@@ -26,6 +28,8 @@ const upload = require('./routes/upload');
 const category = require('./routes/category');
 const { verifyJwt } = require('./Middleware/jwtMiddleware');
 const getProduct =require('./routes/getproduct');
+// const images = require('./routes/images')
+const bannerImage = require("./routes/banner_images")
 
 const app = express();
 
@@ -46,6 +50,12 @@ app.use(cors({
 
 app.use("/product-image",express.static("public/images"))
 app.use("/category-image",express.static("public/images"))
+app.use("/banner-image1",express.static("public/banner"))
+app.use("/banner-image2",express.static("public/banner"))
+app.use("/banner-image3",express.static("public/banner"))
+app.use("/banner-image4",express.static("public/banner"))
+
+
 
 // app.use(cors({
 //   origin:"http://localhost:3000",
@@ -63,10 +73,11 @@ app.get("/", (req,res)=> {
 // app.use('/product',upload);
 const routes = require('./routes/route');
 
-
+// app.use('/images', images);
 app.use('/upload', upload);
 app.use('/api', routes);
 app.use("/api/category",category)
+app.use("/api",bannerImage)
 
 // Plug in the JWT strategy as a middleware so only verified users can access this route.
 app.use('/api/user', verifyJwt, secureRoute);

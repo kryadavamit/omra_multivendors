@@ -126,6 +126,30 @@ router.get("/details", async (req, res) => {
   }
 });
 
+router.get("/userDetails", async (req, res) => {
+  const { _id ,password,email} = req.user;
+  console.log(_id);
+
+  try {
+    const user = await UserModel.find({}
+      
+     
+      
+      
+    );
+    //Fields
+
+    res.json({
+      success: "Sucessfully",
+      user,
+    });
+  } catch (err) {
+    res.json({
+      message: err?.message,
+    });
+  }
+});
+
 router.patch("/companyprofile", async (req, res) => {
   const { _id } = req.user;
   console.log({ "amit badman": req.user });
@@ -189,6 +213,10 @@ router.post(
   upload.fields([
     {name:'product_image1',maxCount:1},
     {name:'product_image2',maxCount:1},
+    {name:'product_image3',maxCount:1},
+    {name:'product_image4',maxCount:1},
+    {name:'product_image5',maxCount:1},
+    {name:'product_image6',maxCount:1},
   ]),
   async (req, res) => {
     // const time = new Date().getTime();
@@ -286,10 +314,16 @@ router.post(
     
 
           
-          product_image1: `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`,
+          product_image1: `${process.env.BASE_URL}/product-image1/${req.files.product_image1[0].filename}`,
+          product_image2: `${process.env.BASE_URL}/product-image2/${req.files.product_image2[0].filename}`,
+          product_image3: `${process.env.BASE_URL}/product-imag3/${req.files.product_image3[0].filename}`,
+          product_image4: `${process.env.BASE_URL}/product-image4/${req.files.product_image4[0].filename}`,
+          product_image5: `${process.env.BASE_URL}/product-image5/${req.files.product_image5[0].filename}`,
+          
           // product_image2: req.files.product_image2[0].filename,
           // videos: req.body.videos,
           category: req.body.category,
+          sub_category:req.body.sub_category,
           price: req.body.price,
           product_Specification: req.body.product_Specification,
           product_description: req.body.product_description,

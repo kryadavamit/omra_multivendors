@@ -39,12 +39,28 @@ const ProductSchema = new Schema(
       type: String,
       required: false,
     },
+    sub_category: {
+      type: String,
+      required: false,
+    },
 
     product_image1: {
       type: Array,
       required: false,
     },
     product_image2: {
+      type: Array,
+      required: false,
+    },
+    product_image3: {
+      type: Array,
+      required: false,
+    },
+    product_image4: {
+      type: Array,
+      required: false,
+    },
+    product_image4: {
       type: Array,
       required: false,
     },

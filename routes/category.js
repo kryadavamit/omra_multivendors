@@ -10,6 +10,8 @@ const path = require("path");
 const sharp = require("sharp");
 const multer = require("multer");
 const fs = require("fs");
+const SubCategory = require("../model/products/subcategory");
+const Product = require("../model/products/product");
 
 //=====================================================
 
@@ -57,16 +59,8 @@ router.post(
             
             
             category_name: req.body.category_name,
-  
-      
-  
-            
             category_image: `${process.env.BASE_URL}/category-image/${req.files.category_image[0].filename}`,
-            // category_image2: req.files.category_image2[0].filename,
-            // videos: req.body.videos,
-            
-        
-            // type: req.body.type,
+           
           });
           await category.save();
           res.status(200).send(category);
@@ -85,6 +79,78 @@ router.post(
     // );
     try {
         const product= await Category.find();
+       
+        
+        res.status(200).json(product);
+    } catch(error) {
+        res.status(404).json({message: error.message});
+    }
+  
+  })
+
+  router.get('/get_home_cat', async (req,res) =>{
+    // const { user } = req.user;
+    // const userData = await UserModel.findOne(
+    //   { _id: user._id },
+    //   { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
+    // );
+    try {
+        const product= await Category.find().limit(8);
+       
+        
+        res.status(200).json(product);
+    } catch(error) {
+        res.status(404).json({message: error.message});
+    }
+  
+  })
+
+  ///  SubCategory Product
+
+  router.post(
+    "/add_subcategory",
+    upload.single("sub_category_image"),
+    async (req, res) => {
+        console.log({"test":req.body})
+      
+  
+        const { _id } = req.params;
+        console.log({"Test Subcategory":userData._id})
+  
+        const userData = await Category.findOne(
+          { _id: _id},
+          {category_name:1}
+          
+        );
+  
+        try {
+          const category =await new SubCategory({
+            category_Id:  userData._id,
+            category_name:  userData.category_name,
+           
+            
+            
+            sub_category_name: req.body.sub_category_name,
+            sub_category_image: `${process.env.BASE_URL}/sub_category_image/${req.files.sub_category_image[0].filename}`,
+           
+          });
+          await category.save();
+          res.status(200).send(category);
+        } catch (err) {
+          res.status(500).send({ message: err?.message });
+        }
+    }
+  );
+
+
+  router.get('/add_subcategory', async (req,res) =>{
+    const { _id } = req.params;
+    const userData = await UserModel.findOne(
+      { _id: _id},
+     
+    );
+    try {
+        const product= await SubCategory.find();
         
         res.status(200).json(product);
     } catch(error) {
