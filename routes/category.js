@@ -95,7 +95,7 @@ router.post(
     //   { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
     // );
     try {
-        const product= await Category.find().limit(8);
+        const product= await Category.find().limit(10);
        
         
         res.status(200).json(product);

@@ -314,11 +314,11 @@ router.post(
     
 
           
-          product_image1: `${process.env.BASE_URL}/product-image1/${req.files.product_image1[0].filename}`,
-          product_image2: `${process.env.BASE_URL}/product-image2/${req.files.product_image2[0].filename}`,
-          product_image3: `${process.env.BASE_URL}/product-imag3/${req.files.product_image3[0].filename}`,
-          product_image4: `${process.env.BASE_URL}/product-image4/${req.files.product_image4[0].filename}`,
-          product_image5: `${process.env.BASE_URL}/product-image5/${req.files.product_image5[0].filename}`,
+          product_image1: `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`,
+          product_image2: `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`,
+          product_image3: `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`,
+          product_image4: `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`,
+          product_image5: `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`,
           
           // product_image2: req.files.product_image2[0].filename,
           // videos: req.body.videos,

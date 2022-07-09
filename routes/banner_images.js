@@ -6,6 +6,7 @@ const UserModel = require("../model/model");
 
 const Category = require("../model/products/category")
 const Banner = require("../model/products/banner")
+const verifyJwt = require("../Middleware/jwtMiddleware")
 
 
 const path = require("path");
@@ -50,10 +51,10 @@ router.post(
                 banner_name: req.body.banner_name,
                 
                 
-                banner_image1:`${process.env.BASE_URL}/banner-image1/${req.files.banner_image1[0].filename}`,
-                banner_image2:`${process.env.BASE_URL}/banner-image2/${req.files.banner_image2[0].filename}`,
-                banner_image3:`${process.env.BASE_URL}/banner-image3/${req.files.banner_image3[0].filename}`,
-                banner_image4:`${process.env.BASE_URL}/banner-image4/${req.files.banner_image4[0].filename}`,
+                banner_image1:`${process.env.BASE_URL}/banner-image/${req.files.banner_image1[0].filename}`,
+                banner_image2:`${process.env.BASE_URL}/banner-image/${req.files.banner_image2[0].filename}`,
+                banner_image3:`${process.env.BASE_URL}/banner-image/${req.files.banner_image3[0].filename}`,
+                banner_image4:`${process.env.BASE_URL}/banner-image/${req.files.banner_image4[0].filename}`,
                 type:req.body.type
             
             
@@ -69,8 +70,8 @@ router.post(
 
 
   router.patch("/update_banner/:_id", async (req, res) => {
-    const { _id } = req.user;
-    console.log(_id);
+    const { _id } = req.params;
+ 
   
     try {
       const user = await Banner.findOne(
@@ -78,10 +79,10 @@ router.post(
         {
             banner_name: req.body.banner_name,
                 
-            banner_image1:`${process.env.BASE_URL}/banner-image1/${req.files.banner_image1[0].filename}`,
-            banner_image2:`${process.env.BASE_URL}/banner-image2/${req.files.banner_image2[0].filename}`,
-            banner_image3:`${process.env.BASE_URL}/banner-image3/${req.files.banner_image3[0].filename}`,
-            banner_image4:`${process.env.BASE_URL}/banner-image4/${req.files.banner_image4[0].filename}`,
+            banner_image1:`${process.env.BASE_URL}/banner-image/${req.files.banner_image1[0].filename}`,
+            banner_image2:`${process.env.BASE_URL}/banner-image/${req.files.banner_image2[0].filename}`,
+            banner_image3:`${process.env.BASE_URL}/banner-image/${req.files.banner_image3[0].filename}`,
+            banner_image4:`${process.env.BASE_URL}/banner-image/${req.files.banner_image4[0].filename}`,
             type:req.body.type
         },
         {

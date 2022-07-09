@@ -50,10 +50,8 @@ app.use(cors({
 
 app.use("/product-image",express.static("public/images"))
 app.use("/category-image",express.static("public/images"))
-app.use("/banner-image1",express.static("public/banner"))
-app.use("/banner-image2",express.static("public/banner"))
-app.use("/banner-image3",express.static("public/banner"))
-app.use("/banner-image4",express.static("public/banner"))
+app.use("/banner-image",express.static("public/banner"))
+
 
 
 
