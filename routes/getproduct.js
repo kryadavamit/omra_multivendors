@@ -36,6 +36,23 @@ router.get('/get_products', async (req,res) =>{
   
   })
 
+  router.get('/getByCategory', async (req,res) =>{
+    const category = req.query.category;
+    // const { user } = req.user;
+    // const userData = await UserModel.findOne(
+    //   { _id: user._id },
+    //   { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
+    // );
+    try {
+        const product= await Product.find({category});
+        
+        res.status(200).json(product);
+    } catch(error) {
+        res.status(404).json({message: error.message});
+    }
+  
+  })
+
   router.get('/get_products_count', async (req,res) =>{
     // const { user } = req.user;
     // const userData = await UserModel.findOne(
