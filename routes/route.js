@@ -161,7 +161,7 @@ router.post(
               const body = { _id: user._id, email: user.email,role:user.role,isRegistered : user?.company_Name?true:false };
               const token = jwt.sign({ user: body }, 'TOP_SECRET');
 
-              return res.json({success:true, token });
+              return res.json({success:true, token:token });
             }
           );
         } catch (error) {

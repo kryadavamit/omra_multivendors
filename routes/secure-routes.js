@@ -292,7 +292,7 @@ router.post(
 
       // const { user } = req.user;
       const { _id } = req.user;
-      console.log({"heooloojhh":_id})
+      console.log({"heooloojhh":req.user})
 
       const userData = await UserModel.findOne(
         { _id: _id },
