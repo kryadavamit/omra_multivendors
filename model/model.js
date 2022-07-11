@@ -120,7 +120,7 @@ UserSchema.pre(
     return compare;
   }
 
-  const UserModel = mongoose.model('test', UserSchema);
+  const UserModel = mongoose.model('User', UserSchema);
   
 
 module.exports = UserModel;

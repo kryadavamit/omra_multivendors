@@ -67,7 +67,7 @@ router.post(
         role:user.role
         
        }
-       const token=jwt.sign(payload, 'TOP_SECRET')
+       const token=jwt.sign({ user: payload }, 'TOP_SECRET')
        
        
        res.status(201).json({ success: true, data: "created successfully",user:user,token:token})
