@@ -9,6 +9,7 @@ const path = require("path");
 const sharp = require("sharp");
 const multer = require("multer");
 const fs = require("fs");
+const { sendEmail } = require("../lib/mailer");
 
 //=====================================================
 
@@ -429,5 +430,8 @@ router.post("/company_profile", async (req, res) => {
     res.status(500).send({ message: err?.message });
   }
 });
+
+
+
 
 module.exports = router;

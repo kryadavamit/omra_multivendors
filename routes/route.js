@@ -6,7 +6,8 @@ const router = express.Router();
 const ProductModel =require("../model/sellerProduct/product");
 const res = require('express/lib/response');
 const UserModel =require('../model/model')
-const bcrypt  = require("bcrypt")
+const bcrypt  = require("bcrypt");
+const { sendEmail } = require('../lib/mailer');
 require("dotenv").config();
 
 // //=====================================================
@@ -204,6 +205,26 @@ router.get(
     
   }
 );
+
+router.post("/send-mail",async (req,res)=>{
+
+  const {description,phoneNumber,email,merchantId} = req.body;
+
+  const merchant = await UserModel.findOne({_id: merchantId});
+
+  if(!merchant) {
+    return res.status(404).json({message:"merchant not found",success:false})
+  }
+
+  try{
+    await sendEmail({merchantEmail:merchant.email , email,phoneNumber,description})
+    res.status(200).json({message:"email sent successfully",success:true})
+  }catch(error){
+    res.status(500).json({message:error?.message,success:false})
+  }
+
+  
+})
 module.exports = router;
 
 

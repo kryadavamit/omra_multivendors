@@ -70,6 +70,55 @@ router.post(
     }
   );
 
+  router.patch("/update_category/:_id",upload.fields([
+    {name:'category_image',maxCount:1},
+    {name:'category_image2',maxCount:1},
+]
+// upload.fields('banner_image1',5
+    ), async (req, res) => {
+    const { _id } = req.params;
+ 
+  
+    try {
+      const user = await Banner.updateOne(
+        { _id },
+        {
+          category_name: req.body.category_name,
+          category_image: `${process.env.BASE_URL}/category-image/${req.files.category_image[0].filename}`
+        },
+        {
+          new: true,
+          upsert: true,
+        }
+      );
+      //Fields
+  
+      res.json({
+        message: "User Updated Sucessfully",
+        user,
+      });
+    } catch (err) {
+      res.json({
+        message: err?.message,
+      });
+    }
+  });
+
+  router.delete("/delete_category/:_id",(req,res) => {
+    const {_id }=req.params
+    try {
+      const category = Category.findOneAndDelete({_id})
+      res.json({
+        message: "category deleted Sucessfully",
+        category,
+      });
+      
+    } catch (error) {
+      res.json({message:error?.message,success:false})
+      
+    }
+  })
+
 
   router.get('/get_category', async (req,res) =>{
     // const { user } = req.user;

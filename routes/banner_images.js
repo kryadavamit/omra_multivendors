@@ -69,12 +69,19 @@ router.post(
   );
 
 
-  router.patch("/update_banner/:_id", async (req, res) => {
+  router.patch("/update_banner/:_id",upload.fields([
+    {name:"banner_image1",maxCount:1},
+    {name:"banner_image2",maxCount:1},
+    {name:"banner_image3",maxCount:1},
+    {name:"banner_image4",maxCount:1},
+]
+// upload.fields('banner_image1',5
+    ), async (req, res) => {
     const { _id } = req.params;
  
   
     try {
-      const user = await Banner.findOne(
+      const user = await Banner.updateOne(
         { _id },
         {
             banner_name: req.body.banner_name,
