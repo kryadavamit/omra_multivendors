@@ -10,6 +10,7 @@ const sharp = require("sharp");
 const multer = require("multer");
 const fs = require("fs");
 const { sendEmail } = require("../lib/mailer");
+const { request } = require("http");
 
 //=====================================================
 
@@ -75,7 +76,7 @@ router.patch("/details", async (req, res) => {
 
   try {
     const user = await UserModel.findOneAndUpdate(
-      { _id:_id },
+      { _id: _id },
       {
         Merchant_Name: req.body.Merchant_Name,
         Merchant_Address: req.body.Merchant_Address,
@@ -109,11 +110,7 @@ router.get("/details", async (req, res) => {
   console.log(_id);
 
   try {
-    const user = await UserModel.findOne(
-      { _id:_id }
-      
-      
-    );
+    const user = await UserModel.findOne({ _id: _id });
     //Fields
 
     res.json({
@@ -128,16 +125,11 @@ router.get("/details", async (req, res) => {
 });
 
 router.get("/userDetails", async (req, res) => {
-  const { _id ,password,email} = req.user;
+  const { _id, password, email } = req.user;
   console.log(_id);
 
   try {
-    const user = await UserModel.find({}
-      
-     
-      
-      
-    );
+    const user = await UserModel.find({});
     //Fields
 
     res.json({
@@ -184,21 +176,16 @@ router.patch("/companyprofile", async (req, res) => {
   }
 });
 
-
 router.get("/companyprofile", async (req, res) => {
   const { _id } = req.user;
   console.log({ "amit badman": req.user });
 
   try {
-    const user = await UserModel.findOne(
-      { _id },
-      
-      
-    );
+    const user = await UserModel.findOne({ _id });
     //Fields
 
     res.json({
-    success:true,
+      success: true,
       user,
     });
   } catch (err) {
@@ -207,21 +194,19 @@ router.get("/companyprofile", async (req, res) => {
     });
   }
 });
-var upload=multer({storage:imageStorage})
+const upload = multer({ storage: imageStorage });
 
 router.post(
   "/upload_product",
   upload.fields([
-    {name:'product_image1',maxCount:1},
-    {name:'product_image2',maxCount:1},
-    {name:'product_image3',maxCount:1},
-    {name:'product_image4',maxCount:1},
-    {name:'product_image5',maxCount:1},
-    {name:'product_image6',maxCount:1},
+    { name: "product_image1" },
+    { name: "product_image2" },
+    { name: "product_image3" },
+    { name: "product_image4" },
+    { name: "product_image5" },
   ]),
   async (req, res) => {
     // const time = new Date().getTime();
-    
 
     // let compressImagePath = path.join(
     //   __dirname,
@@ -231,173 +216,236 @@ router.post(
     //   fileName
     // );
 
+    //     try {
+    //     let ImageUrls = [];
 
-//     try {
-//     let ImageUrls = [];
+    //     if (!req.files) return res.status(400).send("No files were uploaded.");
 
-//     if (!req.files) return res.status(400).send("No files were uploaded.");
+    //     await Promise.all( req.files.map(async (file) => {
+    //         sharp(file.path)
+    //           .resize(800, 800)
+    //           .jpeg({ quality: 80 })
+    //           .toFile( path.join(
+    //             __dirname,
+    //             "../",
+    //             "public",
+    //             "images",
+    //             req.user.user?._id + "-product-" + file?.originalname
+    //           ), async (err) => {
+    //             if (err) {
+    //               fs.unlinkSync(file.path);
+    //               res.json({ success: false, message: err?.message });
+    //             } else {
+    //               fs.unlinkSync(file.path);
+    //               console.log(`${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`);
+    //               ImageUrls.push(
+    //                 `${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`
+    //               );
+    // return  `${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`;
+    //               console.log(ImageUrls);
+    //             }
+    //           });
+    //       })).then((res) => {
+    //         console.log({res,test:"test"})
+    //         res.json({
+    //           success: true,
+    //           message: "avatar uploaded successfully",
+    //           url:  ImageUrls,
+    //         });
+    //       }
+    //     );
 
-
-
-//     await Promise.all( req.files.map(async (file) => {
-//         sharp(file.path)
-//           .resize(800, 800)
-//           .jpeg({ quality: 80 })
-//           .toFile( path.join(
-//             __dirname,
-//             "../",
-//             "public",
-//             "images",
-//             req.user.user?._id + "-product-" + file?.originalname 
-//           ), async (err) => {
-//             if (err) {
-//               fs.unlinkSync(file.path);
-//               res.json({ success: false, message: err?.message });
-//             } else {
-//               fs.unlinkSync(file.path);
-//               console.log(`${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`);
-//               ImageUrls.push(
-//                 `${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`
-//               );
-// return  `${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`;
-//               console.log(ImageUrls);
-//             }
-//           });
-//       })).then((res) => {
-//         console.log({res,test:"test"})
-//         res.json({
-//           success: true,
-//           message: "avatar uploaded successfully",
-//           url:  ImageUrls,
-//         });
-//       }
-//     );
-
-     
-
-      // await Product.findOneAndUpdate(
-      //   { auther_Id: req.user?.user?._id },
-      //   {
-      //     $set: {
-      //       product_image: ImageUrls,
-      //     },
-      //   },
-      //   {
-      //     new: true,
-      //     upsert: true,
-      //   }
-      // );
+    // await Product.findOneAndUpdate(
+    //   { auther_Id: req.user?.user?._id },
+    //   {
+    //     $set: {
+    //       product_image: ImageUrls,
+    //     },
+    //   },
+    //   {
+    //     new: true,
+    //     upsert: true,
+    //   }
+    // );
     // } catch (err) {
     //   console.log(err?.message);
     // }
 
-      // const { user } = req.user;
-      const { _id } = req.user;
-      console.log({"heooloojhh":req.user})
+    // const { user } = req.user;
+    const { _id } = req.user;
+    console.log({ heooloojhh: req.user });
 
-      const userData = await UserModel.findOne(
+    const userData = await UserModel.findOne(
+      { _id: _id },
+      { GST_No: 1, Merchant_Name: 1, TypesOf_Bussiness: 1 }
+    );
+
+    try {
+      const product = await new Product({
+        auther_Id: _id,
+        Vendor_Id: userData.GST_No,
+        vendors_name: userData.Merchant_Name,
+        TypesOf_Bussiness: userData.TypesOf_Bussiness,
+        product_name: req.body.product_name,
+        manufacturer_name: req.body.manufacturer_name,
+        manufacturer_phone_no: req.body.manufacturer_phone_no,
+        manufacturer_address: req.body.manufacturer_address,
+        brand: req.body.brand,
+
+
+        product_image1: req.files.product_image1?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`: undefined,
+        product_image2: req.files.product_image2?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`: undefined,
+        product_image3: req.files.product_image3?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`: undefined,
+        product_image4: req.files.product_image4?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`: undefined,
+        product_image5: req.files.product_image5?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`: undefined,
+
+        // product_image2: req.files.product_image2[0].filename,
+        // videos: req.body.videos,
+        category: req.body.category,
+        sub_category: req.body.sub_category,
+        price: req.body.price,
+        product_Specification: req.body.product_Specification,
+        product_description: req.body.product_description,
+        capacity: req.body.capacity,
+        model_no: req.body.model_no,
+        type: req.body.type,
+      });
+      await product.save();
+      res.status(200).send(product);
+    } catch (err) {
+      res.status(500).send({ message: err?.message });
+    }
+  }
+);
+
+//=============================================
+
+router.patch(
+  "/update_product_By",
+  upload.fields([
+    { name: "product_image1" },
+    { name: "product_image2" },
+    { name: "product_image3" },
+    { name: "product_image4" },
+    { name: "product_image5" },
+  ]),
+  async (req, res) => {
+    const { _id } = req.user;
+    console.log(req.body);
+    console.log(_id);
+
+    try {
+      const user = await Product.findOneAndUpdate(
         { _id: _id },
-        { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
-      );
-
-      try {
-        const product =await new Product({
-          auther_Id:  _id,
-          Vendor_Id: userData.GST_No,
-          vendors_name: userData.Merchant_Name,
-          TypesOf_Bussiness: userData.TypesOf_Bussiness,
+        {
           product_name: req.body.product_name,
           manufacturer_name: req.body.manufacturer_name,
           manufacturer_phone_no: req.body.manufacturer_phone_no,
           manufacturer_address: req.body.manufacturer_address,
           brand: req.body.brand,
 
-    
-
-          
           product_image1: `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`,
           product_image2: `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`,
           product_image3: `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`,
           product_image4: `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`,
           product_image5: `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`,
-          
+
           // product_image2: req.files.product_image2[0].filename,
           // videos: req.body.videos,
           category: req.body.category,
-          sub_category:req.body.sub_category,
+          sub_category: req.body.sub_category,
           price: req.body.price,
           product_Specification: req.body.product_Specification,
           product_description: req.body.product_description,
           capacity: req.body.capacity,
-          model_no:req.body.model_no,
+          model_no: req.body.model_no,
           type: req.body.type,
-        });
-        await product.save();
-        res.status(200).send(product);
-      } catch (err) {
-        res.status(500).send({ message: err?.message });
-      }
+        },
+        {
+          new: true,
+          upsert: true,
+        }
+      );
+      //Fields
+
+      res.json({
+        message: "User Updated Sucessfully",
+        user,
+      });
+    } catch (err) {
+      res.json({
+        message: err?.message,
+      });
+    }
   }
 );
 
-router.get('/get_products', async (req,res) =>{
+router.get("/get_products", async (req, res) => {
   // const { user } = req.user;
   // const userData = await UserModel.findOne(
   //   { _id: user._id },
   //   { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
   // );
   try {
-      const product= await Product.find();
-      
-      res.status(200).json(product);
-  } catch(error) {
-      res.status(404).json({message: error.message});
-  }
+    const product = await Product.find();
 
-})
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
 ///
-router.get('/get_product/:id', async (req,res) =>{
+router.get("/get_product/:id", async (req, res) => {
   const { id } = req.params;
-  
 
   try {
     const product = await Product.findById(id);
-      
-      res.status(200).json(product);
-  } catch(error) {
-      res.status(404).json({message: error.message});
-  }
 
-})
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
 
 // update product====================================Update product==
 
-router.patch('/update_product/:_id', async (req, res) => {
+router.patch("/update_product/:_id", async (req, res) => {
   const { _id } = req.params;
   const update_product = req.body;
-  console.log(req.body.category)
-  console.log(_id)
+  console.log(req.body.category);
+  console.log(_id);
 
   try {
     if (!mongoose.Types.ObjectId.isValid(_id))
       return res.status(404).send("No post Available");
 
-    const product = await Product.findOne({_id}) 
-    product.isApproved=req.body.isApproved
-    //   update_product, {
-    //   new: true,
-    // });
+    const product = await Product.findOne({ _id });
+    product.isApproved = req.body.isApproved;
 
-    // const product = new Product({
-    //   // Vendor_Id: userData.GST_No,
-    //   // vendors_name: userData.Merchant_Name,
-    //   product_name:req.body.product_name,
-    //   product_image:req.body.product_image,
-    //   category:req.body.category,
-    //   price:req.body.price,
-    //   product_Specification:req.body.product_Specification,
-    //   type:req.body.type,
-    // })
+    await product.save();
+    res.status(200).send(product);
+  } catch (err) {
+    res.status(500).send({ message: err?.message });
+  }
+});
+
+//===================================  declined 
+
+router.patch("/declined_product/:_id", async (req, res) => {
+  const { _id } = req.params;
+  const update_product = req.body;
+  console.log(req.body.category);
+  console.log(_id);
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(_id))
+      return res.status(404).send("No post Available");
+
+    const product = await Product.findOne({ _id });
+    product.isDeclined = req.body.isDeclined;
+    product.status = req.body.status;
+    product.message = req.body.message;
+
     await product.save();
     res.status(200).send(product);
   } catch (err) {
@@ -430,8 +478,5 @@ router.post("/company_profile", async (req, res) => {
     res.status(500).send({ message: err?.message });
   }
 });
-
-
-
 
 module.exports = router;

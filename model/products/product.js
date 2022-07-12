@@ -60,7 +60,7 @@ const ProductSchema = new Schema(
       type: Array,
       required: false,
     },
-    product_image4: {
+    product_image5: {
       type: Array,
       required: false,
     },
@@ -98,7 +98,17 @@ const ProductSchema = new Schema(
     isApproved:{
         type:Boolean,
         default:false,
-    }
+    },
+    message:{ type:String,
+      required:false},
+    status:{
+      type:String,
+      required:false
+    },
+    isDeclined:{
+      type:Boolean,
+      default:false,
+  }
   },
   {
     timestamps: true,

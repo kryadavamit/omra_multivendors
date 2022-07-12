@@ -216,6 +216,7 @@ router.post("/send-mail",async (req,res)=>{
     return res.status(404).json({message:"merchant not found",success:false})
   }
 
+  console.log(merchant.email);
   try{
     await sendEmail({merchantEmail:merchant.email , email,phoneNumber,description})
     res.status(200).json({message:"email sent successfully",success:true})
