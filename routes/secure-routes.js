@@ -277,7 +277,7 @@ router.post(
 
     const userData = await UserModel.findOne(
       { _id: _id },
-      { GST_No: 1, Merchant_Name: 1, TypesOf_Bussiness: 1 }
+      { GST_No: 1, Merchant_Name: 1, TypesOf_Bussiness: 1 ,SubTypeOf_bussiness:1,Merchant_Address:1}
     );
 
     try {
@@ -286,6 +286,8 @@ router.post(
         Vendor_Id: userData.GST_No,
         vendors_name: userData.Merchant_Name,
         TypesOf_Bussiness: userData.TypesOf_Bussiness,
+        SubTypeOf_bussiness:userData.SubTypeOf_bussiness,
+        Merchant_Address:userData.Merchant_Address,
         product_name: req.body.product_name,
         manufacturer_name: req.body.manufacturer_name,
         manufacturer_phone_no: req.body.manufacturer_phone_no,

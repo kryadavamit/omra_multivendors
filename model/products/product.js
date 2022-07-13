@@ -13,7 +13,8 @@ const ProductSchema = new Schema(
     TypesOf_Bussiness:{ type: String, required: true },
 
     // true all above
-    SubTypeOf_bussiness:{ type: String, required: false },
+    SubTypeOf_bussiness:{ type: String, required: true },
+    Merchant_Address:{ type: String, required: true },
     product_name: { type: String, required: false },
     manufacturer_name:{
       type:String,

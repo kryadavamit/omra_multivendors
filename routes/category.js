@@ -80,7 +80,7 @@ router.post(
  
   
     try {
-      const user = await Banner.updateOne(
+      const user = await Category.updateOne(
         { _id },
         {
           category_name: req.body.category_name,

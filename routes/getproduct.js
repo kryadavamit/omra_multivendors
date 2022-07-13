@@ -70,5 +70,24 @@ router.get('/get_products', async (req,res) =>{
     }
   
   })
+
+  router.get("filterby_search", async(req,res) => {
+    console.log("hello basmass",req.query)
+    const vendors_name= req.query.vendors_name;
+    const product_name=req.query.product_name
+    try {
+        const data1=await Product.find(vendors_name,product_name
+           )
+
+           res.status(200).json(data1)
+
+    } catch (error) {
+        res.json(404)
+        
+    }
+  })
+ 
+
+  
   
   module.exports = router
