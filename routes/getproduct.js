@@ -71,15 +71,48 @@ router.get('/get_products', async (req,res) =>{
   
   })
 
-  router.get("filterby_search", async(req,res) => {
+  router.get("/search=", async(req,res) => {
     console.log("hello basmass",req.query)
-    const vendors_name= req.query.vendors_name;
-    const product_name=req.query.product_name
-    try {
-        const data1=await Product.find(vendors_name,product_name
-           )
+    const searchName = req.query.vendors_name;
+    console.log({"tesssty":searchName})
+    const searchName1=req.query.product_name
+    console.log(searchName1)
 
-           res.status(200).json(data1)
+    try {
+        await Product.find({
+            vendors_name:{$regex: searchName,$options:'$i'},
+            product_name:{$regex: searchName1,$options:'$i'}
+        }
+        
+           ).then((data)=>
+           res.send(data))
+
+          
+
+    } catch (error) {
+        res.json(404)
+        
+    }
+  })
+
+
+
+  router.get("/search/:key", async(req,res) => {
+    console.log({"teliiii":req.params.key})
+   
+
+    try {
+       const data = await Product.find({
+        "$or":[
+           { vendors_name:{$regex: req.params.key,$options:'$i'}},
+           { product_name:{$regex: req.params.key,$options:'$i'}},
+           { Merchant_Address:{$regex: req.params.key,$options:'$i'}},
+           {category: { $regex: req.params.key, $options: "$i"}}
+
+        ]
+       })
+       res.json(data)
+          
 
     } catch (error) {
         res.json(404)

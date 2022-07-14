@@ -79,6 +79,11 @@ const ProductSchema = new Schema(
       type: String,
       required: false,
     },
+    additionalSpecification: {
+      type: Array,
+      required: false
+
+    },
     product_description: {
         type: String,
         required: false,

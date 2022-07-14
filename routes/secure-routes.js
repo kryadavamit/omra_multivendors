@@ -206,70 +206,8 @@ router.post(
     { name: "product_image5" },
   ]),
   async (req, res) => {
-    // const time = new Date().getTime();
-
-    // let compressImagePath = path.join(
-    //   __dirname,
-    //   "../",
-    //   "public",
-    //   "images",
-    //   fileName
-    // );
-
-    //     try {
-    //     let ImageUrls = [];
-
-    //     if (!req.files) return res.status(400).send("No files were uploaded.");
-
-    //     await Promise.all( req.files.map(async (file) => {
-    //         sharp(file.path)
-    //           .resize(800, 800)
-    //           .jpeg({ quality: 80 })
-    //           .toFile( path.join(
-    //             __dirname,
-    //             "../",
-    //             "public",
-    //             "images",
-    //             req.user.user?._id + "-product-" + file?.originalname
-    //           ), async (err) => {
-    //             if (err) {
-    //               fs.unlinkSync(file.path);
-    //               res.json({ success: false, message: err?.message });
-    //             } else {
-    //               fs.unlinkSync(file.path);
-    //               console.log(`${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`);
-    //               ImageUrls.push(
-    //                 `${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`
-    //               );
-    // return  `${process.env.BASE_URL}/product-image/${req.user.user?._id + "-product-" + file?.originalname }`;
-    //               console.log(ImageUrls);
-    //             }
-    //           });
-    //       })).then((res) => {
-    //         console.log({res,test:"test"})
-    //         res.json({
-    //           success: true,
-    //           message: "avatar uploaded successfully",
-    //           url:  ImageUrls,
-    //         });
-    //       }
-    //     );
-
-    // await Product.findOneAndUpdate(
-    //   { auther_Id: req.user?.user?._id },
-    //   {
-    //     $set: {
-    //       product_image: ImageUrls,
-    //     },
-    //   },
-    //   {
-    //     new: true,
-    //     upsert: true,
-    //   }
-    // );
-    // } catch (err) {
-    //   console.log(err?.message);
-    // }
+    
+   
 
     // const { user } = req.user;
     const { _id } = req.user;
@@ -307,6 +245,7 @@ router.post(
         sub_category: req.body.sub_category,
         price: req.body.price,
         product_Specification: req.body.product_Specification,
+        additionalSpecification: req.body.product_Specification,
         product_description: req.body.product_description,
         capacity: req.body.capacity,
         model_no: req.body.model_no,
@@ -323,7 +262,7 @@ router.post(
 //=============================================
 
 router.patch(
-  "/update_product_By",
+  "/update_product_By/:_id",
   upload.fields([
     { name: "product_image1" },
     { name: "product_image2" },
@@ -332,13 +271,13 @@ router.patch(
     { name: "product_image5" },
   ]),
   async (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.params;
     console.log(req.body);
     console.log(_id);
 
     try {
-      const user = await Product.findOneAndUpdate(
-        { _id: _id },
+      const user = await Product.updateOne(
+        { _id },
         {
           product_name: req.body.product_name,
           manufacturer_name: req.body.manufacturer_name,
@@ -346,11 +285,11 @@ router.patch(
           manufacturer_address: req.body.manufacturer_address,
           brand: req.body.brand,
 
-          product_image1: `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`,
-          product_image2: `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`,
-          product_image3: `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`,
-          product_image4: `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`,
-          product_image5: `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`,
+          product_image1: req.files.product_image1?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`: undefined,
+        product_image2: req.files.product_image2?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`: undefined,
+        product_image3: req.files.product_image3?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`: undefined,
+        product_image4: req.files.product_image4?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`: undefined,
+        product_image5: req.files.product_image5?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`: undefined,
 
           // product_image2: req.files.product_image2[0].filename,
           // videos: req.body.videos,
@@ -358,6 +297,7 @@ router.patch(
           sub_category: req.body.sub_category,
           price: req.body.price,
           product_Specification: req.body.product_Specification,
+          additionalSpecification: req.body.additionalSpecification,
           product_description: req.body.product_description,
           capacity: req.body.capacity,
           model_no: req.body.model_no,
