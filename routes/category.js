@@ -12,6 +12,7 @@ const multer = require("multer");
 const fs = require("fs");
 const SubCategory = require("../model/products/subcategory");
 const Product = require("../model/products/product");
+const uploadSubCategoryImage = require("../config/multer")
 
 //=====================================================
 
@@ -35,7 +36,7 @@ const imageStorage = multer.diskStorage({
 
 
 
-var upload=multer({storage:imageStorage})
+const upload=multer({storage:imageStorage})
 
 router.post(
     "/upload",
@@ -44,7 +45,7 @@ router.post(
       {name:'category_image2',maxCount:1},
     ]),
     async (req, res) => {
-        console.log({"test":req.body})
+        console.log({"test":req.body.category_name})
       
   
         // const { user } = req.user;
@@ -154,33 +155,46 @@ router.post(
   
   })
 
-  ///  SubCategory Product
+  ///  SubCategory Product==========================SubCategory Product============
+
+  // router.post("/add_subcategory" ,upload.single("sub_category_image"),async(req,res)=>{
+  //   try {
+  //     const subcategory=await new SubCategory({
+  //       category_Id: req.body.category_Id,
+  //       category_name: req.body.category_name,
+  //       sub_category_name: req.body.sub_category_name,
+  //       sub_category_image: req.files.sub_category_image.filename >0 ? `${process.env.BASE_URL}/category-image/${req.files.sub_category_image.filename}`:undefined,
+
+  //     })
+  //    await subcategory.save()
+  //     res.status(200).send( await subcategory)
+      
+  //   } catch (error) {
+  //     res.json(error.message)
+      
+  //   }
+  // })
+
 
   router.post(
     "/add_subcategory",
-    upload.single("sub_category_image"),
+    upload.fields([
+      {name:'sub_category_image',maxCount:1},
+      {name:'category_image2',maxCount:1},
+    ]),
     async (req, res) => {
-        console.log({"test":req.body})
+        console.log({"imagesss":req.body.sub_category_image})
       
   
-        const { _id } = req.params;
-        console.log({"Test Subcategory":userData._id})
-  
-        const userData = await Category.findOne(
-          { _id: _id},
-          {category_name:1}
-          
-        );
+     
   
         try {
           const category =await new SubCategory({
-            category_Id:  userData._id,
-            category_name:  userData.category_name,
-           
             
-            
+            category_Id: req.body.category_Id,
+            category_name: req.body.category_name,
             sub_category_name: req.body.sub_category_name,
-            sub_category_image: `${process.env.BASE_URL}/sub_category_image/${req.files.sub_category_image[0].filename}`,
+            sub_category_image:  `${process.env.BASE_URL}/category-image/${req.files.sub_category_image[0].filename}`,
            
           });
           await category.save();
@@ -192,14 +206,23 @@ router.post(
   );
 
 
-  router.get('/add_subcategory', async (req,res) =>{
-    const { _id } = req.params;
-    const userData = await UserModel.findOne(
-      { _id: _id},
-     
-    );
+  
+
+  
+      //Fields
+
+
+
+
+  router.get('/get_subcategory', async (req,res) =>{
+    // const { user } = req.user;
+    // const userData = await UserModel.findOne(
+    //   { _id: user._id },
+    //   { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
+    // );
     try {
         const product= await SubCategory.find();
+       
         
         res.status(200).json(product);
     } catch(error) {
@@ -207,5 +230,11 @@ router.post(
     }
   
   })
+  
 
+
+ 
+
+
+  
   module.exports=router

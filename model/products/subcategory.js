@@ -1,28 +1,35 @@
-const mongoose = require("mongoose");
+const mongoose= require("mongoose")
+const schema= mongoose.Schema
 
-const Schema = mongoose.Schema;
 
-const SubCategorySchema = new Schema(
-  {category_id:{ type: String, required: true },
-  
-  category_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Categories",
+const SubCategorySchema = new schema({
+  category_Id:{
+    type:String,
+    require:false
   },
-  category_name:{ type: String, required: true },
 
 
-   
-   
-    sub_category_name: { type: String, required: false },
-    sub_category_image: { type: Array , required: false},
-   
-},
-  {
-    timestamps: true,
+  category_name:{
+    type:String,
+    require:false
+  },
+  sub_category_name:{
+    type:String,
+    require:false
+
+  },
+  sub_category_image:{
+    type:Array,
+    require:false
   }
-);
+},
+{
+  timestamps:true
+}
 
-const SubCategory = mongoose.model("SubCategory", SubCategorySchema);
+)
 
-module.exports = SubCategory;
+
+const SubCategoy=mongoose.model("SubCategory",SubCategorySchema)
+
+module.exports=SubCategoy

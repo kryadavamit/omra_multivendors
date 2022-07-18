@@ -251,6 +251,8 @@ router.post(
         model_no: req.body.model_no,
         type: req.body.type,
       });
+     
+  
       await product.save();
       res.status(200).send(product);
     } catch (err) {
@@ -274,6 +276,7 @@ router.patch(
     const { _id } = req.params;
     console.log(req.body);
     console.log(_id);
+    console.log("gellljfhhhfh",req.body.additionalSpecification)
 
     try {
       const user = await Product.updateOne(
@@ -297,7 +300,7 @@ router.patch(
           sub_category: req.body.sub_category,
           price: req.body.price,
           product_Specification: req.body.product_Specification,
-          additionalSpecification: req.body.additionalSpecification,
+          additionalSpecification: JSON.parse(req.body.additionalSpecification),
           product_description: req.body.product_description,
           capacity: req.body.capacity,
           model_no: req.body.model_no,
