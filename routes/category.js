@@ -12,7 +12,8 @@ const multer = require("multer");
 const fs = require("fs");
 const SubCategory = require("../model/products/subcategory");
 const Product = require("../model/products/product");
-const uploadSubCategoryImage = require("../config/multer")
+const uploadSubCategoryImage = require("../config/multer");
+const CustomerQueryByProduct = require("../model/products/CustomerQuery");
 
 //=====================================================
 
@@ -230,6 +231,35 @@ router.post(
     }
   
   })
+
+
+  router.post(
+    "/connect_to_buy",
+   
+    async (req, res) => {
+        console.log({"imagesss":req.body.sub_category_image})
+      
+  
+     
+  
+        try {
+          const product =await new CustomerQueryByProduct({
+            
+            product_Id: req.body.product_Id,
+            // product_name: req.body.product_name,
+            // product_merchant:req.body.product_merchant,
+            customer_mob: req.body.customer_mob,
+            
+           
+          });
+          await product.save();
+          res.status(200).send(product);
+        } catch (err) {
+          res.status(500).send({ message: err?.message });
+        }
+    }
+  );
+
   
 
 

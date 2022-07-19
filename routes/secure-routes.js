@@ -245,7 +245,7 @@ router.post(
         sub_category: req.body.sub_category,
         price: req.body.price,
         product_Specification: req.body.product_Specification,
-        additionalSpecification: req.body.product_Specification,
+        additionalSpecification: JSON.parse(req.body.product_Specification) ,
         product_description: req.body.product_description,
         capacity: req.body.capacity,
         model_no: req.body.model_no,
