@@ -27,7 +27,7 @@ router.get('/get_products', async (req,res) =>{
     // );
     try {
         const product= await Product.find().sort([['createdAt', -1]]);
-        console.log(product)
+      
         
         res.status(200).json(product);
     } catch(error) {
@@ -43,7 +43,7 @@ router.get('/get_products', async (req,res) =>{
     //   { _id: user._id },
     //   { GST_No: 1, Merchant_Name: 1 ,TypesOf_Bussiness: 1}
     // );
-    console.log({category})
+   
     try {
         const product= await Product.find({category});
         
@@ -72,11 +72,11 @@ router.get('/get_products', async (req,res) =>{
   })
 
   router.get("/search=", async(req,res) => {
-    console.log("hello basmass",req.query)
+   
     const searchName = req.query.vendors_name;
-    console.log({"tesssty":searchName})
+  
     const searchName1=req.query.product_name
-    console.log(searchName1)
+ 
 
     try {
         await Product.find({
@@ -98,7 +98,6 @@ router.get('/get_products', async (req,res) =>{
 
 
   router.get("/search/:key", async(req,res) => {
-    console.log({"teliiii":req.params.key})
    
 
     try {

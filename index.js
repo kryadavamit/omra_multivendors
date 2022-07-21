@@ -26,10 +26,12 @@ require('./auth/auth');
 const secureRoute = require('./routes/secure-routes');
 const upload = require('./routes/upload');
 const category = require('./routes/category');
+const buyer = require('./routes/buyer')
 const { verifyJwt } = require('./Middleware/jwtMiddleware');
 const getProduct =require('./routes/getproduct');
 // const images = require('./routes/images')
 const bannerImage = require("./routes/banner_images")
+
 
 const app = express();
 
@@ -74,6 +76,7 @@ const routes = require('./routes/route');
 // app.use('/images', images);
 app.use('/upload', upload);
 app.use('/api', routes);
+app.use('/api',buyer)
 app.use("/api/category",category)
 app.use("/api",bannerImage)
 

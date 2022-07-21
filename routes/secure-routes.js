@@ -72,7 +72,7 @@ router.get("/test", (req, res, next) => {
 
 router.patch("/details", async (req, res) => {
   const { _id } = req.user;
-  console.log(_id);
+ 
 
   try {
     const user = await UserModel.findOneAndUpdate(
@@ -107,7 +107,7 @@ router.patch("/details", async (req, res) => {
 
 router.get("/details", async (req, res) => {
   const { _id } = req.user;
-  console.log(_id);
+ 
 
   try {
     const user = await UserModel.findOne({ _id: _id });
@@ -126,7 +126,7 @@ router.get("/details", async (req, res) => {
 
 router.get("/userDetails", async (req, res) => {
   const { _id, password, email } = req.user;
-  console.log(_id);
+
 
   try {
     const user = await UserModel.find({});
@@ -145,7 +145,7 @@ router.get("/userDetails", async (req, res) => {
 
 router.patch("/companyprofile", async (req, res) => {
   const { _id } = req.user;
-  console.log({ "amit badman": req.user });
+  
 
   try {
     const user = await UserModel.findOneAndUpdate(
@@ -178,7 +178,7 @@ router.patch("/companyprofile", async (req, res) => {
 
 router.get("/companyprofile", async (req, res) => {
   const { _id } = req.user;
-  console.log({ "amit badman": req.user });
+ 
 
   try {
     const user = await UserModel.findOne({ _id });
@@ -206,16 +206,19 @@ router.post(
     { name: "product_image5" },
   ]),
   async (req, res) => {
-    
-   
-
     // const { user } = req.user;
     const { _id } = req.user;
-    console.log({ heooloojhh: req.user });
+   
 
     const userData = await UserModel.findOne(
       { _id: _id },
-      { GST_No: 1, Merchant_Name: 1, TypesOf_Bussiness: 1 ,SubTypeOf_bussiness:1,Merchant_Address:1}
+      {
+        GST_No: 1,
+        Merchant_Name: 1,
+        TypesOf_Bussiness: 1,
+        SubTypeOf_bussiness: 1,
+        Merchant_Address: 1,
+      }
     );
 
     try {
@@ -224,20 +227,34 @@ router.post(
         Vendor_Id: userData.GST_No,
         vendors_name: userData.Merchant_Name,
         TypesOf_Bussiness: userData.TypesOf_Bussiness,
-        SubTypeOf_bussiness:userData.SubTypeOf_bussiness,
-        Merchant_Address:userData.Merchant_Address,
+        SubTypeOf_bussiness: userData.SubTypeOf_bussiness,
+        Merchant_Address: userData.Merchant_Address,
         product_name: req.body.product_name,
         manufacturer_name: req.body.manufacturer_name,
         manufacturer_phone_no: req.body.manufacturer_phone_no,
         manufacturer_address: req.body.manufacturer_address,
         brand: req.body.brand,
 
-
-        product_image1: req.files.product_image1?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`: undefined,
-        product_image2: req.files.product_image2?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`: undefined,
-        product_image3: req.files.product_image3?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`: undefined,
-        product_image4: req.files.product_image4?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`: undefined,
-        product_image5: req.files.product_image5?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`: undefined,
+        product_image1:
+          req.files.product_image1?.length > 0
+            ? `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`
+            : undefined,
+        product_image2:
+          req.files.product_image2?.length > 0
+            ? `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`
+            : undefined,
+        product_image3:
+          req.files.product_image3?.length > 0
+            ? `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`
+            : undefined,
+        product_image4:
+          req.files.product_image4?.length > 0
+            ? `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`
+            : undefined,
+        product_image5:
+          req.files.product_image5?.length > 0
+            ? `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`
+            : undefined,
 
         // product_image2: req.files.product_image2[0].filename,
         // videos: req.body.videos,
@@ -245,14 +262,13 @@ router.post(
         sub_category: req.body.sub_category,
         price: req.body.price,
         product_Specification: req.body.product_Specification,
-        additionalSpecification: JSON.parse(req.body.product_Specification) ,
+        additionalSpecification: JSON.parse(req.body.product_Specification),
         product_description: req.body.product_description,
         capacity: req.body.capacity,
         model_no: req.body.model_no,
         type: req.body.type,
       });
-     
-  
+
       await product.save();
       res.status(200).send(product);
     } catch (err) {
@@ -274,12 +290,10 @@ router.patch(
   ]),
   async (req, res) => {
     const { _id } = req.params;
-    console.log(req.body);
-    console.log(_id);
-    console.log("gellljfhhhfh",req.body.additionalSpecification)
+    
 
     try {
-      const user = await Product.updateOne(
+      const user = await Product.findOne(
         { _id },
         {
           product_name: req.body.product_name,
@@ -288,11 +302,26 @@ router.patch(
           manufacturer_address: req.body.manufacturer_address,
           brand: req.body.brand,
 
-          product_image1: req.files.product_image1?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`: undefined,
-        product_image2: req.files.product_image2?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`: undefined,
-        product_image3: req.files.product_image3?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`: undefined,
-        product_image4: req.files.product_image4?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`: undefined,
-        product_image5: req.files.product_image5?.length > 0 ? `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`: undefined,
+          product_image1:
+            req.files.product_image1?.length > 0
+              ? `${process.env.BASE_URL}/product-image/${req.files.product_image1[0].filename}`
+              : undefined,
+          product_image2:
+            req.files.product_image2?.length > 0
+              ? `${process.env.BASE_URL}/product-image/${req.files.product_image2[0].filename}`
+              : undefined,
+          product_image3:
+            req.files.product_image3?.length > 0
+              ? `${process.env.BASE_URL}/product-image/${req.files.product_image3[0].filename}`
+              : undefined,
+          product_image4:
+            req.files.product_image4?.length > 0
+              ? `${process.env.BASE_URL}/product-image/${req.files.product_image4[0].filename}`
+              : undefined,
+          product_image5:
+            req.files.product_image5?.length > 0
+              ? `${process.env.BASE_URL}/product-image/${req.files.product_image5[0].filename}`
+              : undefined,
 
           // product_image2: req.files.product_image2[0].filename,
           // videos: req.body.videos,
@@ -352,9 +381,9 @@ router.get("/get_product/:id", async (req, res) => {
   }
 });
 
-// update product====================================Update product==
+// update product====================================Update product for Approved==
 
-router.patch("/update_product/:_id", async (req, res) => {
+router.patch("/approved_product/:_id", async (req, res) => {
   const { _id } = req.params;
   const update_product = req.body;
   console.log(req.body.category);
@@ -368,18 +397,19 @@ router.patch("/update_product/:_id", async (req, res) => {
     product.isApproved = req.body.isApproved;
 
     await product.save();
+    console.log(product);
     res.status(200).send(product);
   } catch (err) {
     res.status(500).send({ message: err?.message });
   }
 });
 
-//===================================  declined 
+//===================================  declined
 
 router.patch("/declined_product/:_id", async (req, res) => {
   const { _id } = req.params;
   const update_product = req.body;
-  console.log(req.body.category);
+  console.log("declinesd yeseees",req.body);
   console.log(_id);
 
   try {
