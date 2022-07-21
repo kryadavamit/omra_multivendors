@@ -262,7 +262,7 @@ router.post(
         sub_category: req.body.sub_category,
         price: req.body.price,
         product_Specification: req.body.product_Specification,
-        additionalSpecification: JSON.parse(req.body.product_Specification),
+        additionalSpecification: JSON.parse(req.body.additionalSpecification),
         product_description: req.body.product_description,
         capacity: req.body.capacity,
         model_no: req.body.model_no,
@@ -293,7 +293,7 @@ router.patch(
     
 
     try {
-      const user = await Product.findOne(
+      const user = await Product.updateOne(
         { _id },
         {
           product_name: req.body.product_name,
