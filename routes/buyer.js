@@ -21,6 +21,7 @@ router.post(
           const product =await  CustomerQueryByProduct.create({
             merchant_Id: req.body.merchant_Id,
             product_Id: req.body.product_Id,
+            buyer_Message:req.body.buyer_Message,
             buyer_Email: req.body.buyer_Email,
             buyer_Mob: req.body.buyer_Mob
             
